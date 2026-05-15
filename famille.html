@@ -1,4 +1,4 @@
-<DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
@@ -51,7 +51,7 @@ header {
 
     background-repeat: no-repeat;
     background-position: center;
-    background-size: cover;   /* ? fond plein ï¿½cran */
+    background-size: cover;   /* ? fond plein écran */
 
     z-index: -1;
     opacity: 0.35;
@@ -149,10 +149,10 @@ header {
  <h4>Infos client</h4>
 
  <input id="nom" placeholder="Nom" style="width:100%; margin:5px;"><br>
- <input id="prenom" placeholder="Prï¿½nom" style="width:100%; margin:5px;"><br>
+ <input id="prenom" placeholder="Prénom" style="width:100%; margin:5px;"><br>
  <input id="adresse" placeholder="Adresse" style="width:100%; margin:5px;"><br>
 
- <p>Livraison : 7 ï¿½</p>
+ <p>Livraison : 7 €</p>
 
  <button onclick="sendOrder()">Valider</button>
 
@@ -173,7 +173,7 @@ header {
 <script>
 document.addEventListener("DOMContentLoaded", () => {
 if(typeof emailjs === "undefined"){
- console.log("EmailJS non chargï¿½");
+ console.log("EmailJS non chargé");
 }
 // ? vider panier UNE seule fois au premier lancement
 if (!sessionStorage.getItem("initCartDone")) {
@@ -331,7 +331,7 @@ window.showCheckout = function(){
  document.getElementById("checkoutForm").style.display = "block";
 }
 /*window.sendOrder = function(){
-alert("fonction appelï¿½e");
+alert("fonction appelée");
  let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
  if(cart.length === 0){
@@ -354,25 +354,25 @@ alert("fonction appelï¿½e");
  cart.forEach(it=>{
   let sub = it.prix * it.qte;
   total += sub;
-  message += it.nom + " x" + it.qte + " = " + sub + " ï¿½\n";
+  message += it.nom + " x" + it.qte + " = " + sub + " €\n";
  });
 
  let livraison = 7;
  total += livraison;
 
- message += "\nLivraison: " + livraison + " ï¿½";
- message += "\nTOTAL: " + total + " ï¿½\n\n";
+ message += "\nLivraison: " + livraison + " €";
+ message += "\nTOTAL: " + total + " €\n\n";
 
  message += "Client:\n" + nom + " " + prenom + "\n" + adresse;
 
  // ? ENVOI EMAILJS
-  alert("fonction appelï¿½e");
+  alert("fonction appelée");
  emailjs.send("service_mntu679", "template_ck3fxdg", {
   message: message
  })
  .then(function() {
 
-  alert("Commande envoyï¿½e ?");
+  alert("Commande envoyée ?");
 
   // ? vider panier
   localStorage.setItem("cart", JSON.stringify([]));
@@ -390,76 +390,20 @@ alert("fonction appelï¿½e");
   console.log(error);
  });
 }*/
-
-function generateOrderNumber() {
-    let today = new Date();
-
-    let dd = String(today.getDate()).padStart(2, '0');
-    let mm = String(today.getMonth() + 1).padStart(2, '0');
-    let yy = String(today.getFullYear()).slice(-2);
-
-    let datePart = dd + mm + yy; // ex: 140526
-
-    // rÃ©cupÃ©rer compteur stockÃ©
-    let lastDate = localStorage.getItem("orderDate");
-    let counter = localStorage.getItem("orderCount");
-
-    if (lastDate === datePart) {
-        counter = parseInt(counter) + 1;
-    } else {
-        counter = 1;
-    }
-
-    // sauvegarder
-    localStorage.setItem("orderDate", datePart);
-    localStorage.setItem("orderCount", counter);
-
-    let countStr = String(counter).padStart(2, '0');
-
-    return datePart + "-" + countStr;
-}
-
 window.sendOrder = function(){
 
- alert("fonction appelï¿½e");
+ alert("fonction appelée");
 
  if(typeof emailjs === "undefined"){
-  alert("EmailJS non chargï¿½ ?");
-  return;
- }
- let orderId = generateOrderNumber();
- let nom = document.getElementById("nom").value;
- let prenom = document.getElementById("prenom").value;
- let adresse = document.getElementById("adresse").value;
-
- if(!nom || !prenom || !adresse){
-  alert("Remplir tous les champs !");
+  alert("EmailJS non chargé ?");
   return;
  }
 
- let total = 0;
- let message = "Commande NÂ°: " + orderId + "\n\n";
-
- cart.forEach(it=>{
-  let sub = it.prix * it.qte;
-  total += sub;
-  message += it.nom + " x" + it.qte + " = " + sub + " ï¿½\n";
- });
-
- let livraison = 7;
- total += livraison;
-
- message += "\nLivraison: " + livraison + " ï¿½";
- message += "\nTOTAL: " + total + " ï¿½\n\n";
-
- message += "Client:\n" + nom + " " + prenom + "\n" + adresse;
- 
-emailjs.send("service_mntu679", "template_ck3fxdg", {
-    message: message,
-    order_id: orderId   // âœ… nouveau champ
-})
+ emailjs.send("service_mntu679", "template_ck3fxdg", {
+  message: "TEST EMAILJS"
+ })
  .then(function(response) {
-  alert("? EMAIL ENVOYï¿½ !");
+  alert("? EMAIL ENVOYÉ !");
   console.log(response);
  })
  .catch(function(error) {
